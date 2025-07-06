@@ -27,5 +27,5 @@ This project is a Java-based command-line application built for the Makkajai Dev
 
 ---
 
-## 📁 Project Structure
+
 
