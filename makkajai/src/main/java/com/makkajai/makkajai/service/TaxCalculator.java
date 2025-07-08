@@ -1,6 +1,6 @@
 package com.makkajai.makkajai.service;
 
-import com.makkajai.makkajai.model.Item;
+import com.makkajai.makkajai.model.item.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +28,7 @@ public class TaxCalculator {
         return roundedTax;
     }
 
-    private static double roundToNearestFiveCents(double amount) {
+    public static double roundToNearestFiveCents(double amount) {
         return Math.ceil(amount * 20.0) / 20.0;
     }
 }
