@@ -17,23 +17,33 @@ public class Receipt {
     }
 
     public double getTotalSalesTax() {
-        double totalTax = items.stream().mapToDouble(ReceiptItem::getTotalTax).sum();
-        logger.info("Total sales tax: {}", totalTax);
+        double totalTax = 0.0;
+        for (ReceiptItem item : items) {
+            totalTax += item.getTotalTax();
+        }
+        logger.info("Total sales tax computed: {}", totalTax);
         return totalTax;
     }
 
     public double getTotalAmount() {
-        double totalAmount = items.stream().mapToDouble(ReceiptItem::getTotalPrice).sum();
-        logger.info("Total amount: {}", totalAmount);
+        double totalAmount = 0.0;
+        for (ReceiptItem item : items) {
+            totalAmount += item.getTotalPrice();
+        }
+        logger.info("Total amount computed: {}", totalAmount);
         return totalAmount;
     }
 
     public void printReceipt() {
-        logger.info("Printing receipt");
+        logger.info("----- Printing Receipt -----");
         for (ReceiptItem item : items) {
             System.out.println(item.getPrintableLine());
         }
-        System.out.println("Sales Taxes: " + String.format("%.2f", getTotalSalesTax()));
-        System.out.println("Total: " + String.format("%.2f", getTotalAmount()));
+        double totalTax = getTotalSalesTax();
+        double total = getTotalAmount();
+        String taxLine = "Sales Taxes: " + String.format("%.2f", totalTax);
+        String totalLine = "Total: " + String.format("%.2f", total);
+        logger.info(taxLine);
+        logger.info(totalLine);
     }
 }

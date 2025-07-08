@@ -1,4 +1,6 @@
 package com.makkajai.makkajai.model;
+
+import com.makkajai.makkajai.service.TaxCalculator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -7,23 +9,21 @@ public class ReceiptItem {
 
     private final Item item;
     private final int quantity;
+    private final double unitTax; // Caching tax at construction
 
     public ReceiptItem(Item item, int quantity) {
         this.item = item;
         this.quantity = quantity;
-        logger.info("ReceiptItem created: {} x{}", item.getName(), quantity);
+        this.unitTax = TaxCalculator.calculateTax(item); // Calculated only once
+        logger.info("ReceiptItem created: {} x {}", item.getName(), quantity);
     }
 
     public double getTotalTax() {
-        double totalTax = item.calculateTax() * quantity;
-        logger.info("Total tax for '{}': {}", item.getName(), totalTax);
-        return totalTax;
+        return unitTax * quantity;
     }
 
     public double getTotalPrice() {
-        double totalPrice = item.getTotalPrice() * quantity;
-        logger.info("Total price for '{}': {}", item.getName(), totalPrice);
-        return totalPrice;
+        return (item.getPrice() + unitTax) * quantity;
     }
 
     public String getPrintableLine() {

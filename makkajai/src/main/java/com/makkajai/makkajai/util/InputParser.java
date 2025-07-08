@@ -1,15 +1,18 @@
 package com.makkajai.makkajai.util;
 
 import com.makkajai.makkajai.model.Item;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class InputParser {
-    private static final Logger logger = LoggerFactory.getLogger(InputParser.class);
-
     public static Item parseLine(String line) {
-        logger.info("Parsing input line: {}", line);
-        // Placeholder logic, real parsing should go here
-        return new Item("book", 12.49, false, true);
+        int quantity = Integer.parseInt(line.substring(0, line.indexOf(' ')).trim());
+        String namePricePart = line.substring(line.indexOf(' ') + 1);
+        String[] parts = namePricePart.split(" at ");
+        String name = parts[0].trim();
+        double price = Double.parseDouble(parts[1].trim());
+
+        boolean isImported = name.contains("imported");
+        boolean isExempt = name.matches(".*(book|chocolate|pill).*\\b");
+
+        return new Item(name, price, isImported, isExempt);
     }
 }
